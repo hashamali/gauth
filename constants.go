@@ -1,4 +1,4 @@
-package gauth 
+package gauth
 
 // ContextJWTMetaKey is the key within Context that holds the current UserID.
 const ContextJWTMetaKey ContextKeyType = iota

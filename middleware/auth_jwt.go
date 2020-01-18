@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-  "github.com/hashamali/gauth"
+	"github.com/hashamali/gauth"
 )
 
 // GetJWTAuthMiddleware returns a middleware function that runs JWT validation.
@@ -15,7 +15,7 @@ func GetJWTAuthMiddleware(jwt *gauth.JWTAuth) FuncHandler {
 			token, _, err := jwt.Extract(tokenHeader)
 
 			if err != nil {
-        w.WriteHeader(http.StatusUnauthorized)
+				w.WriteHeader(http.StatusUnauthorized)
 			} else {
 				c := context.WithValue(r.Context(), gauth.ContextJWTMetaKey, token)
 				r = r.WithContext(c)
