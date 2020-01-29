@@ -21,7 +21,7 @@ func TestJWT(t *testing.T) {
 	token, err := jwt.Create(userID.String(), "test")
 	assert.NoError(t, err)
 
-	extracted, _, err := jwt.Extract("Bearer " + token)
+	extracted, err := jwt.ExtractFromHeader("Bearer " + token)
 	assert.NoError(t, err)
 
 	extractedUserIDString, ok := extracted.(string)

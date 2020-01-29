@@ -20,25 +20,35 @@ func (auth *JWTAuth) Create(meta interface{}, issuer string) (string, error) {
 	return auth.createTokenString(meta, issuer, ttl)
 }
 
-// Extract returns the encoded object from the header.
-func (auth *JWTAuth) Extract(tokenHeader string) (interface{}, string, error) {
+// ExtractFromHeader returns the encoded object from the header.
+func (auth *JWTAuth) ExtractFromHeader(tokenHeader string) (interface{}, error) {
 	if tokenHeader != "" {
 		split := strings.Split(tokenHeader, " ")
 		if len(split) == 2 {
-			tk := &customJWT{}
-			token, err := jwt.ParseWithClaims(split[1], tk, func(token *jwt.Token) (interface{}, error) {
-				return []byte(auth.Secret), nil
-			})
-
-			if err == nil && token.Valid {
-				return tk.Meta, split[1], nil
+			meta, err := auth.Extract(split[1])
+			if err != nil {
+				return nil, err
 			}
 
-			return nil, "", err
+			return meta, nil
 		}
 	}
 
-	return nil, "", errors.New("auth: invalid auth token")
+	return nil, errors.New("auth: invalid auth token")
+}
+
+// Extract will take a raw token and extract the value.
+func (auth *JWTAuth) Extract(rawToken string) (interface{}, error) {
+	tk := &customJWT{}
+	token, err := jwt.ParseWithClaims(rawToken, tk, func(token *jwt.Token) (interface{}, error) {
+		return []byte(auth.Secret), nil
+	})
+
+	if err == nil && token.Valid {
+		return tk.Meta, nil
+	}
+
+	return nil, err
 }
 
 // GetJWTAuth will return a JWTAuth.
