@@ -10,8 +10,7 @@ type staticBasicAuthConfig struct {
 }
 
 type jwtConfig struct {
-	Secret            string `required:"true"`
-	ExpirationInHours int    `default:"24"`
+	Secret string `required:"true"`
 }
 
 func getStaticBasicAuthConfig() (*staticBasicAuthConfig, error) {

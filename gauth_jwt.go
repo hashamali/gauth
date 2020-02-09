@@ -10,13 +10,12 @@ import (
 
 // JWTAuth handles encoding and decoding JWT tokens.
 type JWTAuth struct {
-	Secret            string
-	ExpirationInHours uint
+	Secret string
 }
 
 // Create creates a JWT token for a given user ID.
-func (auth *JWTAuth) Create(meta interface{}, issuer string) (string, error) {
-	ttl := time.Duration(auth.ExpirationInHours) * time.Hour
+func (auth *JWTAuth) Create(meta interface{}, issuer string, expirationInHours uint) (string, error) {
+	ttl := time.Duration(expirationInHours) * time.Hour
 	return auth.createTokenString(meta, issuer, ttl)
 }
 
@@ -58,10 +57,7 @@ func GetJWTAuth() (*JWTAuth, error) {
 		return nil, err
 	}
 
-	return &JWTAuth{
-		Secret:            jwtConfig.Secret,
-		ExpirationInHours: uint(jwtConfig.ExpirationInHours),
-	}, nil
+	return &JWTAuth{Secret: jwtConfig.Secret}, nil
 }
 
 func (auth *JWTAuth) createTokenString(meta interface{}, issuer string, ttl time.Duration) (string, error) {

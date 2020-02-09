@@ -11,14 +11,12 @@ import (
 
 func TestJWT(t *testing.T) {
 	secret := grand.RandomString(10)
-	expirationInHours := uint(10)
 	jwt := JWTAuth{
-		Secret:            secret,
-		ExpirationInHours: expirationInHours,
+		Secret: secret,
 	}
 
 	userID := uuid.New()
-	token, err := jwt.Create(userID.String(), "test")
+	token, err := jwt.Create(userID.String(), "test", uint(10))
 	assert.NoError(t, err)
 
 	extracted, err := jwt.ExtractFromHeader("Bearer " + token)
