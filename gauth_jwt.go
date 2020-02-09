@@ -14,8 +14,8 @@ type JWTAuth struct {
 }
 
 // Create creates a JWT token for a given user ID.
-func (auth *JWTAuth) Create(meta interface{}, issuer string, expirationInHours uint) (string, error) {
-	ttl := time.Duration(expirationInHours) * time.Hour
+func (auth *JWTAuth) Create(meta interface{}, issuer string, expirationInMinutes uint) (string, error) {
+	ttl := time.Duration(expirationInMinutes) * time.Minute
 	return auth.createTokenString(meta, issuer, ttl)
 }
 
