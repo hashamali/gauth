@@ -31,16 +31,18 @@ func GetJWTAuthMiddleware(
 			}
 
 			if err != nil {
-				// Try to process refresh cookie.
-				var refreshCookie *http.Cookie
-				var refreshToken interface{}
+				if refreshTokenCookie != "" {
+					// Try to process refresh cookie.
+					var refreshCookie *http.Cookie
+					var refreshToken interface{}
 
-				err = nil
-				refreshCookie, err = r.Cookie(refreshTokenCookie)
-				if err == nil {
-					refreshToken, err = jwt.Extract(refreshCookie.Value)
+					err = nil
+					refreshCookie, err = r.Cookie(refreshTokenCookie)
 					if err == nil {
-						token, err = onValidRefreshToken(w, refreshToken)
+						refreshToken, err = jwt.Extract(refreshCookie.Value)
+						if err == nil {
+							token, err = onValidRefreshToken(w, refreshToken)
+						}
 					}
 				}
 
