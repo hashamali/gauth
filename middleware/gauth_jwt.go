@@ -5,10 +5,19 @@ import (
 	"net/http"
 
 	"github.com/hashamali/gauth"
+	"golang.org/x/net/xsrftoken"
 )
 
 // GetJWTAuthMiddleware returns a middleware function that runs JWT validation.
-func GetJWTAuthMiddleware(jwt *gauth.JWTAuth, accessTokenCookie string, refreshTokenCookie string, onValidRefreshToken func(w http.ResponseWriter, refreshToken interface{}) (interface{}, error)) FuncHandler {
+func GetJWTAuthMiddleware(
+	jwt *gauth.JWTAuth,
+	accessTokenCookie string,
+	refreshTokenCookie string,
+	xsrfTokenCookie string,
+	xsrfKey string,
+	extractIdentifyFromTokenForXSRFValidation func(token interface{}) string,
+	onValidRefreshToken func(w http.ResponseWriter, refreshToken interface{},
+	) (interface{}, error)) FuncHandler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			var token interface{}
@@ -41,6 +50,21 @@ func GetJWTAuthMiddleware(jwt *gauth.JWTAuth, accessTokenCookie string, refreshT
 
 				// Otherwise return 401.
 				if err != nil {
+					w.WriteHeader(http.StatusUnauthorized)
+					return
+				}
+			}
+
+			// Validate XSRF token.
+			if xsrfTokenCookie != "" && xsrfKey != "" && extractIdentifyFromTokenForXSRFValidation != nil {
+				xsrfCookie, err := r.Cookie(xsrfTokenCookie)
+				if err != nil {
+					w.WriteHeader(http.StatusUnauthorized)
+					return
+				}
+
+				identity := extractIdentifyFromTokenForXSRFValidation(token)
+				if !xsrftoken.Valid(xsrfCookie.Value, xsrfKey, identity, r.URL.Path) {
 					w.WriteHeader(http.StatusUnauthorized)
 					return
 				}
