@@ -12,8 +12,6 @@ Handles authentication using basic auth or JWTs.
 
 #### Methods
 
-* `GetJWTAuth`: Generates a new `JWTAuth`.
-* `GetStaticBasicAuth`: Generates a new `StaticBasicAuth`.
 * `JWTAuth.Create`: Creates a JWT token with the provided metadata.
 * `JWTAuth.Extract`: Extracts metadata from the given JWT token.
 * `StaticBasicAuth.Validate`: Validates the given username and password with it's static values.

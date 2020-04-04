@@ -19,16 +19,3 @@ func (auth *StaticBasicAuth) Validate(username string, password string) bool {
 	passwordMatches := subtle.ConstantTimeCompare([]byte(password), []byte(auth.Password)) == 1
 	return userMatches && passwordMatches
 }
-
-// GetStaticBasicAuth will return a StaticBasicAuth.
-func GetStaticBasicAuth() (*StaticBasicAuth, error) {
-	c, err := getStaticBasicAuthConfig()
-	if err != nil {
-		return nil, err
-	}
-
-	return &StaticBasicAuth{
-		Username: c.User,
-		Password: c.Password,
-	}, nil
-}

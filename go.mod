@@ -6,7 +6,5 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/google/uuid v1.1.1
 	github.com/hashamali/grand v0.0.0-20200118213202-8f4fc2f11dfe
-	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/stretchr/testify v1.4.0
-	golang.org/x/net v0.0.0-20200320220750-118fecf932d8
 )

@@ -50,16 +50,6 @@ func (auth *JWTAuth) Extract(rawToken string) (interface{}, error) {
 	return nil, err
 }
 
-// GetJWTAuth will return a JWTAuth.
-func GetJWTAuth() (*JWTAuth, error) {
-	jwtConfig, err := getJWTConfig()
-	if err != nil {
-		return nil, err
-	}
-
-	return &JWTAuth{Secret: jwtConfig.Secret}, nil
-}
-
 func (auth *JWTAuth) createTokenString(meta interface{}, issuer string, ttl time.Duration) (string, error) {
 	token := &customJWT{
 		Meta: meta,
