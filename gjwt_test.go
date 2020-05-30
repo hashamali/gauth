@@ -1,16 +1,14 @@
-package gauth
+package gjwt
 
 import (
 	"testing"
 
-	"github.com/hashamali/grand"
-
-	uuid "github.com/google/uuid"
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestJWT(t *testing.T) {
-	secret := grand.RandomString(10)
+	secret := uuid.New().String()
 	jwt := JWTAuth{
 		Secret: secret,
 	}

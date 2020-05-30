@@ -1,20 +1,21 @@
-## gauth
+# gjwt
+[![godoc](https://godoc.org/github.com/hashamali/gjwt?status.svg)](http://godoc.org/github.com/hashamali/gjwt)
+[![tests](https://img.shields.io/github/workflow/status/hashamali/gjwt/tests?label=tests&style=flat-square)](https://github.com/hashamali/gjwt/actions?query=workflow%3Atests)
+[![sec](https://img.shields.io/github/workflow/status/hashamali/gjwt/security?label=security&style=flat-square)](https://github.com/hashamali/gjwt/actions?query=workflow%3Asecurity)
+[![coverage](https://img.shields.io/codecov/c/github/hashamali/gjwt)](https://codecov.io/gh/hashamali/gjwt)
+[![go-report](https://goreportcard.com/badge/github.com/hashamali/gjwt)](https://goreportcard.com/report/github.com/hashamali/gjwt)
+[![license](https://badgen.net/github/license/hashamali/gjwt)](https://opensource.org/licenses/MIT)
 
-[![CircleCI](https://circleci.com/gh/hashamali/gauth/tree/master.svg?style=svg)](https://circleci.com/gh/hashamali/gauth/tree/master)
-
-Handles authentication using basic auth or JWTs.
+Handles authentication using JWTs.
 
 #### Types
 
 * `JWTAuth`: Does JWT authentication. Contains the secret key used to sign JWTs as well as the expiration time.
-* `BasicAuth`: Defines an interface for handling basic auth.
-* `StaticBasicAuth`: `BasicAuth` implementation that uses a static username and password.
 
 #### Methods
 
 * `JWTAuth.Create`: Creates a JWT token with the provided metadata.
 * `JWTAuth.Extract`: Extracts metadata from the given JWT token.
-* `StaticBasicAuth.Validate`: Validates the given username and password with it's static values.
 
 #### Testing
 

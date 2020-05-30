@@ -1,4 +1,4 @@
-package gauth
+package gjwt
 
 import (
 	"errors"
